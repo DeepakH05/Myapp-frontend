@@ -12,6 +12,7 @@ pipeline {
         stage('Test') {
             steps {
                // sh 'npm test -- --passWithNoTests'
+               echo 'Skipping tests for now'
             }
         }
 
