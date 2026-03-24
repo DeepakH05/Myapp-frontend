@@ -1,8 +1,18 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+// Mock components
+jest.mock("./Login", () => () => <div>Login Page</div>);
+jest.mock("./Home", () => () => <div>Home Page</div>);
+jest.mock("./Cart", () => () => <div>Cart Page</div>);
+jest.mock("./PaymentSuccess", () => () => <div>Payment Success Page</div>);
+
+describe("App Routing", () => {
+
+  test("renders Login page", () => {
+    render(<App />);
+    expect(screen.getByText("Login Page")).toBeInTheDocument();
+  });
+
 });
