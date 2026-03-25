@@ -1,10 +1,13 @@
 pipeline {
     agent any
 
-    environment {
+   environment {
         SONARQUBE_SERVER = "SonarQube"
+        AWS_REGION = "us-east-1"
+        ACCOUNT_ID = "102080400716"   // 👈 replace this
+        IMAGE_NAME = "my-react-app"
+        REPO_URI = "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${IMAGE_NAME}"
     }
-
     stages {
 
         stage('Checkout Code') {
@@ -64,6 +67,21 @@ pipeline {
                 sh 'docker build -t my-react-app .'
                 echo 'Docker Image Created Successfully'
                 sh 'docker images | grep my-react-app'
+            }
+        }
+    }
+
+    stage('Push to ECR') {
+            steps {
+                echo 'Pushing image to ECR'
+                sh '''
+                aws ecr get-login-password --region $AWS_REGION | \
+                docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+                docker tag $IMAGE_NAME:latest $REPO_URI:latest
+
+                docker push $REPO_URI:latest
+                '''
             }
         }
     }
