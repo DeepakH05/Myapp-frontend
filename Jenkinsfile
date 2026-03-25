@@ -1,13 +1,14 @@
 pipeline {
     agent any
 
-   environment {
+    environment {
         SONARQUBE_SERVER = "SonarQube"
         AWS_REGION = "us-east-1"
-        ACCOUNT_ID = "102080400716"   // 👈 replace this
+        ACCOUNT_ID = "102080400716"
         IMAGE_NAME = "my-react-app"
         REPO_URI = "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${IMAGE_NAME}"
     }
+
     stages {
 
         stage('Checkout Code') {
@@ -69,9 +70,8 @@ pipeline {
                 sh 'docker images | grep my-react-app'
             }
         }
-    }
 
-    stage('Push to ECR') {
+        stage('Push to ECR') {
             steps {
                 echo 'Pushing image to ECR'
                 sh '''
