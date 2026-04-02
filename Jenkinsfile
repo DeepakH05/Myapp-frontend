@@ -46,7 +46,7 @@ pipeline {
                     npx sonar-scanner \
                     -Dsonar.projectKey=my-react-app \
                     -Dsonar.sources=src \
-                    -Dsonar.host.url=http://43.204.145.245:9000/ \
+                    -Dsonar.host.url=http://13.201.192.254:9000/ \
                     -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
                     '''
                 }
